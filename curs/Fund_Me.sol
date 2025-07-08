@@ -9,6 +9,7 @@ contract FundMe {
          owner = msg.sender;
     }
     mapping(address => uint256) public addressToAmountFunded;
+    address[] public funders;
 
     function Fund() public payable {
         // $50
@@ -16,6 +17,7 @@ contract FundMe {
        // if(msg.value < minimumUSD) revert("not enough ether");
         //sau require(getConversionRate(msg.value) >= minimumUSD, "You need to spend more ETH");
         addressToAmountFunded[msg.sender] += msg.value;
+        funders.push(msg.sender);
         //^^^^^^^^^^^^^^^ msg.sender si msg.value sunt keywords referitoare la cel ce foloste contractul
         // conversie ETH -> USD
         // luam informatii de la un "Oraclu"
@@ -55,7 +57,12 @@ contract FundMe {
         //called doar de owner
         // require(msg.sender == owner);
         payable (msg.sender).transfer(address(this).balance);
-        
+        for(uint256 i = 0; i < funders.length; i++){
+            address funder = funders[i];
+            addressToAmountFunded[funder] = 0;
+            //seteaza inapoi la 0
+        }
+        funders = new address[](0);
     }
 
 }
