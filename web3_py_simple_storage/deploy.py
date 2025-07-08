@@ -2,6 +2,10 @@ import solcx
 from solcx import compile_standard
 import json
 from web3 import Web3
+import os
+python_dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+from dotenv import load_dotenv
+load_dotenv(dotenv_path=python_dotenv_path)
 # Connect to Ganache
 solcx.install_solc('0.8.17')
 with open("./SimpleStorgae.sol", "r") as file:
@@ -28,12 +32,11 @@ with open("compiled_sol.json", "w") as file:
 bytecode = compile_sol["contracts"]["SimpleStorgae.sol"]["SimpleStorage"]["evm"]["bytecode"]["object"]
 
 abi = compile_sol["contracts"]["SimpleStorgae.sol"]["SimpleStorage"]["abi"]
-
-w3 = Web3(Web3.HTTPProvider("NU LAS LINKUL DE INFURA AICI")) # aici trebuie sa pui linkul de la ganache
+w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
 chain_id = 11155111
-my_address = "0x7C3097a9A187eB9268DC539CB8225a0E2B65156A" #asta chiar e portofelul meu lmao
+my_address = os.getenv("ACCOUNT_ADDRESS")
 #nu da push la key in plain txt
-private_key = "TEAPAAA" #aici venea cheia sper ca nu am lasat-o in plain text
+private_key = os.getenv("PRIVATE_KEY")
 
 SimpleStorage = w3.eth.contract(abi=abi, bytecode=bytecode)
 
