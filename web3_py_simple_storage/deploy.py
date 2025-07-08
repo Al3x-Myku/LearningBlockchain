@@ -29,11 +29,11 @@ bytecode = compile_sol["contracts"]["SimpleStorgae.sol"]["SimpleStorage"]["evm"]
 
 abi = compile_sol["contracts"]["SimpleStorgae.sol"]["SimpleStorage"]["abi"]
 
-w3 = Web3(Web3.HTTPProvider("HTTP://127.0.0.1:7545"))
-chain_id = 1337
-my_address = "0xCb22C032d64f92ae1aB0EE923EEA1Ad5a2b96d11"
+w3 = Web3(Web3.HTTPProvider("NU LAS LINKUL DE INFURA AICI")) # aici trebuie sa pui linkul de la ganache
+chain_id = 11155111
+my_address = "0x7C3097a9A187eB9268DC539CB8225a0E2B65156A" #asta chiar e portofelul meu lmao
 #nu da push la key in plain txt
-private_key = "0xfa0ba31965d5c70039350bd3f90ec8a9ac153f98abb15e93ff8fff5b1a813aa5"
+private_key = "TEAPAAA" #aici venea cheia sper ca nu am lasat-o in plain text
 
 SimpleStorage = w3.eth.contract(abi=abi, bytecode=bytecode)
 
@@ -83,3 +83,4 @@ store_txn_hash = w3.eth.send_raw_transaction(signed_store_txn.raw_transaction)
 store_txn_receipt = w3.eth.wait_for_transaction_receipt(store_txn_hash)
 
 print(simple_storage.functions.retrieve().call())  # Should print 15
+
